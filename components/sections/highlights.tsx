@@ -46,15 +46,15 @@ export function Highlights() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {highlights.map((item, index) => (
-                    <Card key={index} className="border-border-subtle bg-surface hover:-translate-y-1">
+                    <Card key={index} className="border-border-subtle bg-surface hover:-translate-y-1 hover:border-tertiary/30 hover:shadow-lg hover:shadow-tertiary/5 transition-all duration-300 group">
                         <CardHeader>
-                            <div className="h-14 w-14 rounded-2xl bg-primary-soft flex items-center justify-center mb-6 text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                            <div className="h-14 w-14 rounded-2xl bg-primary-soft flex items-center justify-center mb-6 text-primary group-hover:bg-gradient-to-br group-hover:from-tertiary group-hover:to-accent group-hover:text-white transition-all duration-300 shadow-sm group-hover:shadow-md">
                                 <item.icon size={28} />
                             </div>
-                            <CardTitle className="text-xl font-bold">{item.title}</CardTitle>
+                            <CardTitle className="text-xl font-bold group-hover:text-foreground transition-colors">{item.title}</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-secondary leading-relaxed">
+                            <p className="text-secondary leading-relaxed group-hover:text-secondary-foreground/80">
                                 {item.description}
                             </p>
                         </CardContent>

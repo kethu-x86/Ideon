@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Twitter, Instagram, Linkedin, Mail } from "lucide-react";
+import { Logo } from "@/components/ui/logo";
 
 export function Footer() {
     return (
@@ -7,9 +8,9 @@ export function Footer() {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div className="md:col-span-2">
-                        <Link href="/" className="flex items-center gap-2 mb-4">
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary/20">
-                                I
+                        <Link href="/" className="flex items-center gap-3 mb-4 group">
+                            <div className="w-10 h-10 group-hover:scale-105 transition-transform duration-300">
+                                <Logo />
                             </div>
                             <span className="text-xl font-bold font-heading tracking-tight text-foreground">IDEON 1.0</span>
                         </Link>
@@ -30,21 +31,6 @@ export function Footer() {
                     </div>
 
                     <div>
-                        <h3 className="font-semibold mb-4 text-foreground">Connect</h3>
-                        <div className="flex gap-4">
-                            <Link href="#" className="p-2 rounded-full bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors">
-                                <Instagram size={20} />
-                            </Link>
-                            <Link href="#" className="p-2 rounded-full bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors">
-                                <Twitter size={20} />
-                            </Link>
-                            <Link href="#" className="p-2 rounded-full bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors">
-                                <Linkedin size={20} />
-                            </Link>
-                            <Link href="mailto:contact@ideon.com" className="p-2 rounded-full bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors">
-                                <Mail size={20} />
-                            </Link>
-                        </div>
                         <p className="mt-4 text-sm text-muted-foreground">
                             &copy; {new Date().getFullYear()} IEDC CETkr.
                         </p>

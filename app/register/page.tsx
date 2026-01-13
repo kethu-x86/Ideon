@@ -33,7 +33,7 @@ export default function RegisterPage() {
                         </div>
 
                         <div className="pt-8">
-                            <Button size="lg" variant="default" className="w-full md:w-auto text-lg h-14 px-8 rounded-full shadow-lg" asChild>
+                            <Button size="lg" variant="tertiary" className="w-full md:w-auto text-lg h-14 px-8 rounded-full shadow-lg" asChild>
                                 <Link href="https://forms.google.com" target="_blank">
                                     Register via Google Forms <ArrowRight className="ml-2" />
                                 </Link>

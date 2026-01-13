@@ -53,7 +53,7 @@ export function TimelinePreview() {
                 {schedulePreview.map((item, index) => (
                     <div key={index} className="relative pl-8 md:pl-16 group">
                         {/* Timeline Dot */}
-                        <div className="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-surface border-4 border-primary group-hover:scale-125 transition-transform duration-300" />
+                        <div className="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-surface border-4 border-primary group-hover:border-tertiary group-hover:scale-125 transition-all duration-300 shadow-sm" />
 
                         <div className="flex flex-col md:flex-row gap-6 md:gap-12 items-start bg-surface p-6 rounded-2xl border border-border-subtle shadow-sm hover:shadow-md transition-all">
                             <div className="min-w-[120px] text-center md:text-left">

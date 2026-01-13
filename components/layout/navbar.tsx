@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { Logo } from "@/components/ui/logo";
 
 const navLinks = [
     { name: "About", href: "/about" },
@@ -37,9 +38,9 @@ export function Navbar() {
             )}
         >
             <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-                <Link href="/" className="flex items-center gap-2 group">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-xl group-hover:scale-105 transition-transform shadow-lg shadow-primary/20">
-                        I
+                <Link href="/" className="flex items-center gap-3 group">
+                    <div className="w-12 h-12 transition-transform group-hover:scale-105 duration-300">
+                        <Logo />
                     </div>
                     <span className="text-2xl font-bold font-heading tracking-tight text-foreground">IDEON</span>
                 </Link>
@@ -51,18 +52,18 @@ export function Navbar() {
                             key={link.href}
                             href={link.href}
                             className={cn(
-                                "text-sm font-medium transition-colors hover:text-primary relative group/link",
+                                "text-sm font-medium transition-colors hover:text-tertiary relative group/link",
                                 pathname === link.href ? "text-primary" : "text-secondary"
                             )}
                         >
                             {link.name}
                             <span className={cn(
-                                "absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover/link:w-full",
-                                pathname === link.href && "w-full"
+                                "absolute -bottom-1 left-0 w-0 h-0.5 bg-tertiary transition-all duration-300 group-hover/link:w-full",
+                                pathname === link.href && "w-full bg-primary"
                             )} />
                         </Link>
                     ))}
-                    <Button variant="default" size="sm" asChild className="rounded-full px-6">
+                    <Button variant="tertiary" size="sm" asChild className="rounded-full px-6">
                         <Link href="/register">Register Now</Link>
                     </Button>
                 </nav>

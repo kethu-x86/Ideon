@@ -21,16 +21,16 @@ export function Hero() {
                     transition={{ duration: 0.8, ease: "easeOut" }}
                     className="space-y-8 max-w-4xl"
                 >
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface border border-border-subtle shadow-sm text-sm text-secondary font-medium hover:shadow-md transition-shadow cursor-default">
-                        <span className="flex h-2.5 w-2.5 rounded-full bg-accent animate-pulse"></span>
-                        Jan 3-5, 2024 • IEDC CETkr
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface border border-tertiary/20 shadow-sm text-sm text-secondary font-medium hover:shadow-md transition-shadow cursor-default group">
+                        <span className="flex h-2.5 w-2.5 rounded-full bg-tertiary animate-pulse shadow-[0_0_8px_rgba(79,70,229,0.5)]"></span>
+                        <span className="group-hover:text-tertiary transition-colors">Jan 3-5, 2024 • IEDC CETkr</span>
                     </div>
 
                     <h1 className="text-6xl md:text-8xl font-bold font-heading tracking-tight text-foreground leading-[1.1]">
-                        IDEON <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent relative inline-block">
+                        IDEON <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-tertiary relative inline-block">
                             1.0
                             {/* Sparkle decoration */}
-                            <svg className="absolute -top-6 -right-8 w-10 h-10 text-accent opacity-80" viewBox="0 0 24 24" fill="currentColor">
+                            <svg className="absolute -top-6 -right-8 w-10 h-10 text-tertiary opacity-100 animate-pulse" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
                             </svg>
                         </span>
@@ -38,13 +38,13 @@ export function Hero() {
 
                     <p className="text-xl md:text-2xl text-secondary max-w-2xl mx-auto leading-relaxed font-medium">
                         Where <span className="text-primary font-bold">Ideas</span> Turn Into{" "}
-                        <span className="text-accent font-bold">Impact</span>.
+                        <span className="text-tertiary font-bold">Impact</span>.
                         <br className="hidden md:block" />
                         Join the flagship innovation summit.
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
-                        <Button size="lg" variant="default" className="text-lg px-8 h-14 rounded-full shadow-lg hover:shadow-primary/30" asChild>
+                        <Button size="lg" variant="tertiary" className="text-lg px-8 h-14 rounded-full shadow-lg hover:shadow-tertiary/30" asChild>
                             <Link href="/register">
                                 Register Now
                                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />

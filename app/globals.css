@@ -11,6 +11,8 @@
   --color-surface: var(--surface);
   --color-surface-alt: var(--surface-alt);
   --color-border-subtle: var(--border-subtle);
+  --color-tertiary: #4F46E5;
+  --color-tertiary-soft: #EEF2FF;
 
   --font-sans: var(--font-inter);
   --font-heading: var(--font-space-grotesk);
@@ -50,6 +52,10 @@
   --border: #E5E7EB;
   /* slate-200 */
   --border-subtle: #E5E7EB;
+
+  /* Professional Indigo (Tertiary) */
+  --tertiary: #4F46E5;
+  --tertiary-soft: #EEF2FF;
 }
 
 body {

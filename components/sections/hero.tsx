@@ -368,8 +368,8 @@ export function Hero() {
                                 className="text-lg px-8 h-14 rounded-xl bg-gradient-to-r from-primary to-tertiary text-white shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:scale-[1.02] transition-all duration-300 group"
                                 asChild
                             >
-                                <Link href="/register">
-                                    Register Team
+                                <Link href="https://forms.google.com" target="_blank">
+                                    Register Now
                                     <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                                 </Link>
                             </Button>

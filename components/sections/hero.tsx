@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowRight, Calendar, Users, Clock } from "lucide-react";
 
-// --- Enhanced Brain Lobe with more dynamic animations ---
+// --- Optimized Brain Lobe (Glints Removed) ---
 const BrainLobe = ({
     className,
     delay = 0,
@@ -16,7 +16,31 @@ const BrainLobe = ({
     pulseColor?: string;
 }) => (
     <motion.div
-        className={`absolute overflow-hidden backdrop-blur-sm ${className}`}
+        // Removed backdrop-blur-sm for more seamless integration
+        className={`absolute overflow-hidden ${className}`}
+        // HINT: will-change helps browser anticipate the border-radius morph
+        style={{
+            willChange: "border-radius, transform",
+            background: `
+                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 25%),
+                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05) 0%, transparent 20%),
+                repeating-radial-gradient(
+                    circle at 50% 50%, 
+                    transparent 0px,
+                    rgba(0, 150, 255, 0.05) 2px, 
+                    transparent 4px, 
+                    transparent 12px
+                ),
+                linear-gradient(135deg, rgba(0,85,255,0.8) 0%, rgba(0,40,120,0.9) 50%, rgba(79,70,229,0.85) 100%)
+            `,
+            // Slightly reduced shadow opacity for seamlessness
+            boxShadow: `
+                inset 0 0 30px rgba(0,200,255,0.3),
+                inset 0 0 60px rgba(0,100,255,0.15),
+                0 0 20px rgba(0,100,255,0.2),
+                0 0 40px rgba(0,100,255,0.1)
+            `
+        }}
         animate={{
             borderRadius: [
                 "60% 40% 30% 70% / 60% 30% 70% 40%",
@@ -31,49 +55,17 @@ const BrainLobe = ({
             ease: "easeInOut",
             delay: delay,
         }}
-        style={{
-            background: `
-                radial-gradient(circle at 20% 20%, rgba(255,255,255,0.15) 0%, transparent 25%),
-                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.1) 0%, transparent 20%),
-                repeating-radial-gradient(
-                    circle at 50% 50%, 
-                    transparent 0px,
-                    rgba(0, 150, 255, 0.08) 2px, 
-                    transparent 4px, 
-                    transparent 12px
-                ),
-                linear-gradient(135deg, rgba(0,85,255,0.85) 0%, rgba(0,40,120,0.95) 50%, rgba(79,70,229,0.9) 100%)
-            `,
-            boxShadow: `
-                inset 0 0 30px rgba(0,200,255,0.4),
-                inset 0 0 60px rgba(0,100,255,0.2),
-                0 0 20px rgba(0,100,255,0.3),
-                0 0 40px rgba(0,100,255,0.15)
-            `
-        }}
     >
-        {/* Multiple synapse flashes */}
-        <motion.div
-            className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-transparent via-white/30 to-transparent"
-            animate={{ x: ["-150%", "250%"] }}
-            transition={{ duration: 2.5, repeat: Infinity, delay: delay, ease: "easeInOut", repeatDelay: 3 }}
-        />
-        <motion.div
-            className="absolute top-0 left-0 w-full h-full bg-gradient-to-bl from-transparent via-cyan-300/20 to-transparent"
-            animate={{ y: ["-150%", "250%"] }}
-            transition={{ duration: 3, repeat: Infinity, delay: delay + 1.5, ease: "easeInOut", repeatDelay: 4 }}
-        />
+        {/* REMOVED: Synapse flashes (glint animation) */}
 
-        {/* Pulsing inner glow */}
+        {/* Pulsing inner glow - Changed from animating boxShadow (Paint) to opacity (Composite) */}
         <motion.div
-            className="absolute inset-0 rounded-full"
-            animate={{
-                boxShadow: [
-                    `inset 0 0 20px ${pulseColor}`,
-                    `inset 0 0 40px ${pulseColor}`,
-                    `inset 0 0 20px ${pulseColor}`,
-                ]
+            className="absolute inset-0 rounded-[inherit]" // Inherits the morphing border radius
+            style={{
+                boxShadow: `inset 0 0 40px ${pulseColor}`,
+                willChange: "opacity"
             }}
+            animate={{ opacity: [0.3, 0.8, 0.3] }} // Slightly reduced intensity
             transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         />
     </motion.div>
@@ -89,26 +81,26 @@ const NeuralConnection = ({
     to: { x: number; y: number };
     delay?: number;
 }) => (
-    <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ overflow: 'visible' }}>
+    <svg className="absolute inset-0 w-full h-full pointer-events-none overflow-visible">
+        <defs>
+            <linearGradient id="neural-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="rgba(0,216,255,0.6)" />
+                <stop offset="50%" stopColor="rgba(0,85,255,0.7)" />
+                <stop offset="100%" stopColor="rgba(79,70,229,0.6)" />
+            </linearGradient>
+        </defs>
         <motion.line
             x1={from.x}
             y1={from.y}
             x2={to.x}
             y2={to.y}
             stroke="url(#neural-gradient)"
-            strokeWidth="2"
+            strokeWidth="1.5" // Slightly thinner
             strokeLinecap="round"
             initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: [0, 0.6, 0.6, 0] }}
+            animate={{ pathLength: 1, opacity: [0, 0.5, 0.5, 0] }} // Reduced opacity
             transition={{ duration: 3, repeat: Infinity, delay, ease: "easeInOut" }}
         />
-        <defs>
-            <linearGradient id="neural-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="rgba(0,216,255,0.8)" />
-                <stop offset="50%" stopColor="rgba(0,85,255,0.9)" />
-                <stop offset="100%" stopColor="rgba(79,70,229,0.8)" />
-            </linearGradient>
-        </defs>
     </svg>
 );
 
@@ -129,12 +121,12 @@ const ThoughtParticle = ({
     direction?: { x: number; y: number };
 }) => (
     <motion.div
-        className={`absolute ${color} rounded-full ${className}`}
-        style={{ width: size, height: size }}
+        className={`absolute ${color} rounded-full ${className} blur-[1px]`} // Added slight blur
+        style={{ width: size, height: size, willChange: "transform, opacity" }}
         animate={{
             x: [0, direction.x],
             y: [0, direction.y],
-            opacity: [0, 1, 1, 0],
+            opacity: [0, 0.8, 0.8, 0], // Reduced opacity
             scale: [0.5, 1.2, 1, 0.3],
         }}
         transition={{
@@ -162,16 +154,19 @@ const OrbitingDot = ({
 }) => (
     <motion.div
         className="absolute top-1/2 left-1/2"
+        style={{ willChange: "transform" }}
         animate={{ rotate: 360 }}
         transition={{ duration, repeat: Infinity, ease: "linear", delay }}
     >
         <motion.div
-            className={`${color} rounded-full shadow-lg`}
+            className={`${color} rounded-full shadow-lg blur-[1px]`} // Added slight blur
             style={{
                 width: size,
                 height: size,
-                marginLeft: radius,
-                boxShadow: `0 0 ${size * 2}px currentColor`
+                marginLeft: radius, // Using margin to offset from center, rotation handles the orbit
+                boxShadow: `0 0 ${size * 2}px currentColor`,
+                willChange: "transform",
+                opacity: 0.8
             }}
             animate={{ scale: [1, 1.3, 1] }}
             transition={{ duration: 1.5, repeat: Infinity }}
@@ -182,20 +177,22 @@ const OrbitingDot = ({
 export function Hero() {
     return (
         <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-surface via-white to-surface-alt">
-            {/* Background Effects */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {/* Background Effects - Slightly reduced opacity for better blending */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none select-none">
                 <motion.div
-                    className="absolute -top-40 -right-40 w-[700px] h-[700px] bg-gradient-to-br from-accent/30 to-primary/20 blur-[120px] rounded-full opacity-60"
-                    animate={{ scale: [1, 1.1, 1], opacity: [0.6, 0.7, 0.6] }}
+                    className="absolute -top-40 -right-40 w-[700px] h-[700px] bg-gradient-to-br from-accent/20 to-primary/10 blur-[120px] rounded-full"
+                    style={{ willChange: "transform, opacity", opacity: 0.5, transform: "translateZ(0)" }}
+                    animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.6, 0.5] }}
                     transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
                 />
                 <motion.div
-                    className="absolute top-1/2 -left-40 w-[600px] h-[600px] bg-gradient-to-tr from-tertiary/20 to-accent/10 blur-[120px] rounded-full opacity-50"
-                    animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.6, 0.5] }}
+                    className="absolute top-1/2 -left-40 w-[600px] h-[600px] bg-gradient-to-tr from-tertiary/15 to-accent/10 blur-[120px] rounded-full"
+                    style={{ willChange: "transform, opacity", opacity: 0.4, transform: "translateZ(0)" }}
+                    animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.5, 0.4] }}
                     transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
                 />
 
-                {/* Grid Pattern */}
+                {/* Grid Pattern - Static CSS for better performance */}
                 <div
                     className="absolute inset-0 opacity-[0.03]"
                     style={{
@@ -213,23 +210,13 @@ export function Hero() {
                         initial={{ opacity: 0, x: -50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 1, ease: "easeOut" }}
-                        className="flex items-center justify-center relative h-[400px] lg:h-[500px] order-first lg:order-none"
+                        className="flex items-center justify-center relative h-[400px] lg:h-[500px] order-first lg:order-none pointer-events-none" // Added pointer-events-none to container
                     >
                         <div className="relative w-[450px] h-[400px] scale-[0.65] sm:scale-[0.8] md:scale-100 origin-center">
-                            {/* Outer glow ring */}
-                            <motion.div
-                                className="absolute inset-[-30px] rounded-full"
-                                animate={{
-                                    boxShadow: [
-                                        "0 0 60px rgba(0,85,255,0.15), 0 0 120px rgba(0,216,255,0.1)",
-                                        "0 0 80px rgba(0,85,255,0.25), 0 0 160px rgba(0,216,255,0.15)",
-                                        "0 0 60px rgba(0,85,255,0.15), 0 0 120px rgba(0,216,255,0.1)",
-                                    ]
-                                }}
-                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                            />
 
-                            {/* Neural connections between lobes */}
+                            {/* REMOVED: Outer glow ring (the circle around it) */}
+
+                            {/* Neural connections */}
                             <NeuralConnection from={{ x: 200, y: 140 }} to={{ x: 120, y: 180 }} delay={0} />
                             <NeuralConnection from={{ x: 280, y: 200 }} to={{ x: 350, y: 300 }} delay={1.5} />
                             <NeuralConnection from={{ x: 140, y: 250 }} to={{ x: 320, y: 320 }} delay={3} />
@@ -243,28 +230,31 @@ export function Hero() {
                             <BrainLobe
                                 className="w-[340px] h-[260px] top-[10px] right-[20px] z-10"
                                 delay={0}
-                                pulseColor="rgba(0, 216, 255, 0.4)"
+                                pulseColor="rgba(0, 216, 255, 0.3)"
                             />
 
                             {/* 2. Frontal Lobe */}
                             <BrainLobe
                                 className="w-[260px] h-[200px] top-[90px] left-[10px] z-20"
                                 delay={0.5}
-                                pulseColor="rgba(0, 85, 255, 0.5)"
+                                pulseColor="rgba(0, 85, 255, 0.4)"
                             />
 
                             {/* 3. Cerebellum */}
                             <BrainLobe
                                 className="w-[130px] h-[110px] bottom-[30px] right-[50px] z-0"
                                 delay={1}
-                                pulseColor="rgba(79, 70, 229, 0.4)"
+                                pulseColor="rgba(79, 70, 229, 0.3)"
                             />
 
-                            {/* Brain stem glow */}
+                            {/* Brain stem glow - Optimized and softened */}
                             <motion.div
-                                className="absolute bottom-0 right-[110px] w-16 h-28 rounded-full blur-2xl -z-10"
-                                style={{ background: "linear-gradient(to top, transparent, rgba(0,85,255,0.3))" }}
-                                animate={{ opacity: [0.3, 0.6, 0.3] }}
+                                className="absolute bottom-0 right-[110px] w-16 h-28 rounded-full blur-3xl -z-10"
+                                style={{
+                                    background: "linear-gradient(to top, transparent, rgba(0,85,255,0.2))",
+                                    willChange: "opacity"
+                                }}
+                                animate={{ opacity: [0.2, 0.5, 0.2] }}
                                 transition={{ duration: 3, repeat: Infinity }}
                             />
 
@@ -312,13 +302,13 @@ export function Hero() {
                                     animate={{
                                         backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
                                     }}
-                                    transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-                                    style={{ backgroundSize: "200% 200%" }}
+                                    transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                                    style={{ backgroundSize: "200% 200%", willChange: "background-position" }}
                                 >
                                     1.0
                                 </motion.span>
                                 <motion.div
-                                    className="h-1 w-20 bg-gradient-to-r from-primary to-accent rounded-full"
+                                    className="h-1 w-20 bg-gradient-to-r from-primary to-accent rounded-full origin-left"
                                     animate={{ scaleX: [1, 1.2, 1], opacity: [1, 0.7, 1] }}
                                     transition={{ duration: 2, repeat: Infinity }}
                                 />

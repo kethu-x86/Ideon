@@ -1,97 +1,251 @@
 "use client";
 
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { Clock, Sun, Moon, Trophy, Sparkles } from "lucide-react";
 import { SectionWrapper } from "@/components/layout/section-wrapper";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import { ArrowRight, Calendar, Clock } from "lucide-react";
 
-const schedulePreview = [
+const fullSchedule = [
     {
+        date: "Friday, Jan 16",
         day: "Day 1",
-        date: "Jan 3",
-        title: "Bootcamp Kickoff",
-        events: ["Ice Breaking", "Design Thinking Workshop", "Team Formation"],
+        subtitle: "Kickoff & Foundation",
+        icon: Sun,
+        color: "primary",
+        events: [
+            { time: "5:00 PM", title: "Registration" },
+            { time: "6:00 PM", title: "Opening Ceremony" },
+            { time: "7:30 PM", title: "Ice Breaking" },
+            { time: "8:30 PM", title: "Problem Statement" },
+        ]
     },
     {
+        date: "Saturday, Jan 17",
         day: "Day 2",
-        date: "Jan 4",
-        title: "Prototyping & Hacking",
-        events: ["User Empathy Mapping", "Rapid Prototyping", "Mentorship Rounds"],
+        subtitle: "Build & Iterate",
+        icon: Moon,
+        color: "accent",
+        events: [
+            { time: "9:00 AM", title: "Design Thinking" },
+            { time: "11:15 AM", title: "Prototyping" },
+            { time: "2:00 PM", title: "Mentorship" },
+            { time: "7:00 PM", title: "Hack Night" },
+        ]
     },
     {
+        date: "Sunday, Jan 18",
         day: "Day 3",
-        date: "Jan 5",
-        title: "The Final Pitch",
-        events: ["Pitching Competition", "Jury Evaluation", "Awards Ceremony"],
+        subtitle: "Pitch & Win",
+        icon: Trophy,
+        color: "tertiary",
+        events: [
+            { time: "9:00 AM", title: "Pitch Polish" },
+            { time: "2:00 PM", title: "Grand Finale" },
+            { time: "4:00 PM", title: "Awards" },
+            { time: "5:00 PM", title: "Closing" },
+        ]
     },
 ];
 
+const colorMap = {
+    primary: {
+        badge: "bg-primary text-white",
+        border: "border-primary/30",
+        glow: "shadow-primary/20",
+        iconBg: "bg-primary-soft",
+        iconColor: "text-primary",
+        dot: "bg-primary",
+    },
+    accent: {
+        badge: "bg-accent text-white",
+        border: "border-accent/30",
+        glow: "shadow-accent/20",
+        iconBg: "bg-accent-soft",
+        iconColor: "text-accent",
+        dot: "bg-accent",
+    },
+    tertiary: {
+        badge: "bg-tertiary text-white",
+        border: "border-tertiary/30",
+        glow: "shadow-tertiary/20",
+        iconBg: "bg-tertiary-soft",
+        iconColor: "text-tertiary",
+        dot: "bg-tertiary",
+    },
+};
+
 export function TimelinePreview() {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start end", "end start"],
+    });
+
+    // Animate the path drawing
+    const pathLength = useTransform(scrollYProgress, [0, 0.8], [0, 1]);
+
     return (
-        <SectionWrapper id="timeline" hasBackground>
-            <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-                <div className="space-y-4">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-soft text-sm text-accent font-bold tracking-wide uppercase">
-                        <Calendar size={16} />
-                        <span>The Schedule</span>
-                    </div>
-                    <h2 className="text-3xl md:text-5xl font-bold font-heading text-foreground">
-                        3 Days of <span className="text-primary">Impact</span>
-                    </h2>
-                    <p className="text-secondary text-lg max-w-xl leading-relaxed">
-                        Three days of intensive learning, building, and pitching. From idea to prototype in 72 hours.
-                    </p>
-                </div>
-                <Button variant="outline" asChild className="hidden md:inline-flex rounded-full border-primary text-primary hover:bg-primary-soft">
-                    <Link href="/schedule">
-                        View Full Schedule <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                </Button>
+        <SectionWrapper id="schedule" className="relative overflow-hidden py-20">
+            {/* Background */}
+            <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute top-20 left-[10%] w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px]" />
+                <div className="absolute top-[40%] right-[10%] w-[300px] h-[300px] bg-accent/5 rounded-full blur-[80px]" />
+                <div className="absolute bottom-20 left-[20%] w-[350px] h-[350px] bg-tertiary/5 rounded-full blur-[100px]" />
             </div>
 
-            <div className="relative border-l-2 border-primary/20 ml-4 md:ml-6 space-y-12">
-                {schedulePreview.map((item, index) => (
-                    <div key={index} className="relative pl-8 md:pl-16 group">
-                        {/* Timeline Dot */}
-                        <div className="absolute -left-[9px] top-2 h-4 w-4 rounded-full bg-surface border-4 border-primary group-hover:border-tertiary group-hover:scale-125 transition-all duration-300 shadow-sm" />
+            {/* Header */}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-center mb-20"
+            >
+                <span className="text-sm font-bold tracking-[0.3em] text-tertiary uppercase mb-4 block">
+                    Timeline
+                </span>
+                <h2 className="text-4xl md:text-6xl font-bold font-heading text-foreground mb-4">
+                    THE <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-tertiary">JOURNEY</span>
+                </h2>
+                <p className="text-lg text-secondary max-w-xl mx-auto">
+                    Follow the path from ideation to innovation
+                </p>
+            </motion.div>
 
-                        <div className="flex flex-col md:flex-row gap-6 md:gap-12 items-start bg-surface p-6 rounded-2xl border border-border-subtle shadow-sm hover:shadow-md transition-all">
-                            <div className="min-w-[120px] text-center md:text-left">
-                                <span className="text-xs font-bold text-accent uppercase tracking-wider block mb-1">
-                                    {item.day}
-                                </span>
-                                <span className="text-2xl font-bold font-heading block text-primary">
-                                    {item.date}
-                                </span>
-                            </div>
+            {/* Timeline Container */}
+            <div ref={containerRef} className="relative max-w-5xl mx-auto px-4">
+                {/* The Wavy/Curvy Path SVG */}
+                <svg
+                    className="absolute left-1/2 -translate-x-1/2 top-0 h-full w-40 md:w-80"
+                    viewBox="0 0 200 900"
+                    fill="none"
+                    preserveAspectRatio="none"
+                >
+                    {/* Background path (faded) */}
+                    <path
+                        d="M100 50 
+                           C 30 150, 170 250, 100 350
+                           C 30 450, 170 550, 100 650
+                           C 30 750, 100 850, 100 850"
+                        stroke="rgba(0,85,255,0.08)"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        fill="none"
+                    />
+                    {/* Animated path */}
+                    <motion.path
+                        d="M100 50 
+                           C 30 150, 170 250, 100 350
+                           C 30 450, 170 550, 100 650
+                           C 30 750, 100 850, 100 850"
+                        stroke="url(#gradient)"
+                        strokeWidth="3"
+                        strokeLinecap="round"
+                        fill="none"
+                        style={{ pathLength }}
+                    />
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stopColor="#0055FF" />
+                            <stop offset="50%" stopColor="#00D8FF" />
+                            <stop offset="100%" stopColor="#4F46E5" />
+                        </linearGradient>
+                    </defs>
+                </svg>
 
-                            <div className="space-y-4 flex-1">
-                                <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
-                                    {item.title}
-                                </h3>
-                                <div className="flex flex-wrap gap-2">
-                                    {item.events.map((event, eventIndex) => (
-                                        <div
-                                            key={eventIndex}
-                                            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium bg-surface-alt text-secondary border border-border-subtle group-hover:border-primary/20 transition-colors"
-                                        >
-                                            <Clock size={12} className="text-primary" />
-                                            {event}
+                {/* Timeline Content */}
+                <div className="relative z-10 space-y-24 md:space-y-32">
+                    {fullSchedule.map((day, index) => {
+                        const colors = colorMap[day.color as keyof typeof colorMap];
+                        const Icon = day.icon;
+                        const isEven = index % 2 === 0;
+
+                        return (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, x: isEven ? -50 : 50 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true, margin: "-100px" }}
+                                transition={{ duration: 0.6 }}
+                                className={`flex items-center gap-8 md:gap-16 ${isEven ? 'flex-row' : 'flex-row-reverse'}`}
+                            >
+                                {/* Day Card */}
+                                <div className={`flex-1 ${isEven ? 'text-right' : 'text-left'}`}>
+                                    <motion.div
+                                        className={`
+                                            inline-block p-6 md:p-8 rounded-2xl
+                                            bg-surface border ${colors.border}
+                                            shadow-xl ${colors.glow}
+                                            hover:scale-[1.02] transition-transform duration-300
+                                        `}
+                                        whileHover={{ y: -5 }}
+                                    >
+                                        {/* Day Header */}
+                                        <div className={`flex items-center gap-3 mb-4 ${isEven ? 'justify-end' : 'justify-start'}`}>
+                                            <div className={`w-12 h-12 rounded-xl ${colors.iconBg} flex items-center justify-center ${colors.iconColor} ${isEven ? 'order-2' : ''}`}>
+                                                <Icon size={24} />
+                                            </div>
+                                            <div className={isEven ? 'text-right' : 'text-left'}>
+                                                <span className={`inline-block px-2 py-0.5 rounded text-xs font-bold ${colors.badge} mb-1`}>
+                                                    {day.day}
+                                                </span>
+                                                <h3 className="text-xl md:text-2xl font-bold font-heading text-foreground">
+                                                    {day.date}
+                                                </h3>
+                                            </div>
                                         </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
 
-            <div className="mt-12 md:hidden text-center">
-                <Button variant="outline" asChild className="w-full rounded-full border-primary text-primary">
-                    <Link href="/schedule">
-                        View Full Schedule <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                </Button>
+                                        {/* Subtitle */}
+                                        <p className="text-sm text-secondary mb-4 flex items-center gap-2 justify-end">
+                                            {isEven && <Sparkles size={14} className={colors.iconColor} />}
+                                            <span>{day.subtitle}</span>
+                                            {!isEven && <Sparkles size={14} className={colors.iconColor} />}
+                                        </p>
+
+                                        {/* Events */}
+                                        <div className="space-y-2">
+                                            {day.events.map((event, eventIndex) => (
+                                                <motion.div
+                                                    key={eventIndex}
+                                                    initial={{ opacity: 0 }}
+                                                    whileInView={{ opacity: 1 }}
+                                                    transition={{ delay: eventIndex * 0.1 }}
+                                                    className={`flex items-center gap-3 text-sm ${isEven ? 'justify-end' : 'justify-start'}`}
+                                                >
+                                                    {isEven && <span className="text-foreground font-medium">{event.title}</span>}
+                                                    <span className={`font-mono text-xs ${colors.iconColor} ${colors.iconBg} px-2 py-0.5 rounded flex items-center gap-1`}>
+                                                        <Clock size={10} />
+                                                        {event.time}
+                                                    </span>
+                                                    {!isEven && <span className="text-foreground font-medium">{event.title}</span>}
+                                                </motion.div>
+                                            ))}
+                                        </div>
+                                    </motion.div>
+                                </div>
+
+                                {/* Center Dot on the Path */}
+                                <div className="flex-shrink-0 relative">
+                                    <motion.div
+                                        className={`w-6 h-6 rounded-full ${colors.dot} shadow-lg ring-4 ring-surface`}
+                                        initial={{ scale: 0 }}
+                                        whileInView={{ scale: 1 }}
+                                        viewport={{ once: true }}
+                                        transition={{ type: "spring", stiffness: 300, delay: 0.2 }}
+                                    />
+                                    {/* Pulse effect */}
+                                    <motion.div
+                                        className={`absolute inset-0 rounded-full ${colors.dot} opacity-40`}
+                                        animate={{ scale: [1, 2, 1], opacity: [0.4, 0, 0.4] }}
+                                        transition={{ duration: 2, repeat: Infinity }}
+                                    />
+                                </div>
+
+                                {/* Empty space on the other side */}
+                                <div className="flex-1" />
+                            </motion.div>
+                        );
+                    })}
+                </div>
             </div>
         </SectionWrapper>
     );

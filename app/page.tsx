@@ -2,7 +2,6 @@ import { Hero } from "@/components/sections/hero";
 import { About } from "@/components/sections/about";
 import { Highlights } from "@/components/sections/highlights";
 import { TimelinePreview } from "@/components/sections/timeline-preview";
-import { Partners } from "@/components/sections/partners";
 
 export default function Home() {
   return (
@@ -11,7 +10,6 @@ export default function Home() {
       <About />
       <Highlights />
       <TimelinePreview />
-      <Partners />
     </div>
   );
 }

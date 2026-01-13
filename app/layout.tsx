@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 
 const inter = Inter({
@@ -34,8 +33,7 @@ export default function RootLayout({
           "antialiased min-h-screen font-sans bg-background text-foreground selection:bg-primary/20 selection:text-primary"
         )}
       >
-        <Navbar />
-        <main className="flex-1 pt-20">
+        <main className="flex-1">
           {children}
         </main>
         <Footer />

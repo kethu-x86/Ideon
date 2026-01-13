@@ -19,7 +19,8 @@ const BrainLobe = memo(({
     <m.div
         className={`absolute overflow-hidden ${className}`}
         style={{
-            willChange: "border-radius, transform",
+            willChange: "transform",
+            borderRadius: "50% 45% 55% 45% / 45% 55% 45% 55%", // Static, organic shape
             background: `
                 radial-gradient(circle at 20% 20%, rgba(255,255,255,0.1) 0%, transparent 25%),
                 radial-gradient(circle at 80% 80%, rgba(255,255,255,0.05) 0%, transparent 20%),
@@ -40,15 +41,11 @@ const BrainLobe = memo(({
             `
         }}
         animate={{
-            borderRadius: [
-                "60% 40% 30% 70% / 60% 30% 70% 40%",
-                "40% 60% 60% 40% / 40% 50% 50% 60%",
-                "50% 50% 40% 60% / 55% 45% 55% 45%",
-                "60% 40% 30% 70% / 60% 30% 70% 40%",
-            ],
+            scale: [1, 1.03, 1, 0.97, 1],
+            rotate: [0, 3, -2, 3, 0],
         }}
         transition={{
-            duration: 6,
+            duration: 8, // Slightly longer for a more subtle effect
             repeat: Infinity,
             ease: "easeInOut",
             delay: delay,

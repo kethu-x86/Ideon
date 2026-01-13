@@ -1,8 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Twitter, Instagram, Linkedin, Mail, Heart, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Heart, ArrowRight } from "lucide-react";
 
 const footerLinks = {
     product: [
@@ -10,16 +9,6 @@ const footerLinks = {
         { label: "About", href: "/#about" },
         { label: "Speakers", href: "/#speakers" },
         { label: "Timeline", href: "/#schedule" },
-    ],
-    legal: [
-        { label: "Code of Conduct", href: "#" },
-        { label: "Privacy Policy", href: "#" },
-        { label: "Terms of Service", href: "#" },
-    ],
-    social: [
-        { icon: Instagram, href: "https://instagram.com/iedc_cet", label: "Instagram" },
-        { icon: Linkedin, href: "https://linkedin.com/company/iedc-cet", label: "LinkedIn" },
-        { icon: Twitter, href: "https://twitter.com/iedccet", label: "Twitter" },
     ]
 };
 
@@ -39,23 +28,6 @@ export function Footer() {
                             The flagship innovation & entrepreneurship bootcamp by IEDC CETkr.
                             Where ideas turn into impact.
                         </p>
-                        <div className="flex items-center gap-4">
-                            {footerLinks.social.map((social, index) => {
-                                const Icon = social.icon;
-                                return (
-                                    <Link
-                                        key={index}
-                                        href={social.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="w-10 h-10 rounded-full bg-surface border border-border-subtle flex items-center justify-center text-secondary hover:text-primary hover:border-primary/50 hover:bg-primary/5 transition-all duration-300"
-                                        aria-label={social.label}
-                                    >
-                                        <Icon size={18} />
-                                    </Link>
-                                );
-                            })}
-                        </div>
                     </div>
 
                     {/* Quick Links */}

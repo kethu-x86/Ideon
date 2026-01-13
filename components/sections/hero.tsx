@@ -213,9 +213,9 @@ export function Hero() {
                         initial={{ opacity: 0, x: -50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 1, ease: "easeOut" }}
-                        className="hidden lg:flex items-center justify-center relative h-[500px]"
+                        className="flex items-center justify-center relative h-[400px] lg:h-[500px] order-first lg:order-none"
                     >
-                        <div className="relative w-[450px] h-[400px]">
+                        <div className="relative w-[450px] h-[400px] scale-[0.65] sm:scale-[0.8] md:scale-100 origin-center">
                             {/* Outer glow ring */}
                             <motion.div
                                 className="absolute inset-[-30px] rounded-full"

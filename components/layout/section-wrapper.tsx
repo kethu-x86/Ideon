@@ -19,8 +19,8 @@ export function SectionWrapper({
         <section
             id={id}
             className={cn(
-                "py-16 md:py-24 relative overflow-hidden",
-                hasBackground && "bg-secondary/20",
+                "py-20 md:py-28 relative overflow-hidden",
+                hasBackground ? "bg-surface-alt" : "bg-surface",
                 className
             )}
             {...props}

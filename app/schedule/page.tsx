@@ -1,5 +1,6 @@
 import { SectionWrapper } from "@/components/layout/section-wrapper";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Clock } from "lucide-react";
 
 const fullSchedule = [
     {
@@ -36,40 +37,42 @@ const fullSchedule = [
 
 export default function SchedulePage() {
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen bg-surface-alt">
             <SectionWrapper className="pt-32 md:pt-48">
                 <div className="text-center space-y-6 mb-16">
-                    <h1 className="text-4xl md:text-6xl font-bold font-heading">
+                    <h1 className="text-4xl md:text-6xl font-bold font-heading text-foreground">
                         Event <span className="text-primary">Schedule</span>
                     </h1>
-                    <p className="text-xl text-muted-foreground">
+                    <p className="text-xl text-secondary max-w-2xl mx-auto leading-relaxed">
                         A packed 3-day agenda designed for maximum impact.
                     </p>
                 </div>
 
-                <div className="space-y-12 max-w-4xl mx-auto">
+                <div className="space-y-16 max-w-4xl mx-auto">
                     {fullSchedule.map((day, index) => (
-                        <div key={index} className="space-y-6">
-                            <div className="flex items-center gap-4">
-                                <span className="px-3 py-1 rounded-full bg-accent/10 text-accent font-bold text-sm uppercase tracking-wider">
+                        <div key={index} className="space-y-8 relative">
+                            {/* Date Header */}
+                            <div className="flex flex-col md:flex-row md:items-center gap-4 border-b border-border-subtle pb-4">
+                                <span className="inline-flex px-4 py-1.5 rounded-full bg-primary-soft text-primary font-bold text-sm uppercase tracking-wider w-fit">
                                     {day.day}
                                 </span>
-                                <h2 className="text-2xl font-bold">{day.date}</h2>
+                                <h2 className="text-2xl md:text-3xl font-bold font-heading text-foreground">{day.date}</h2>
                             </div>
 
                             <div className="grid gap-4">
                                 {day.events.map((event, eventIndex) => (
-                                    <Card key={eventIndex} className="bg-white/[0.02] border-white/5 hover:bg-white/[0.04] transition-colors">
-                                        <CardContent className="flex flex-col md:flex-row gap-4 p-6 items-start md:items-center">
-                                            <div className="min-w-[100px] text-primary font-mono font-bold">
+                                    <div key={eventIndex} className="group flex flex-col md:flex-row gap-6 p-6 rounded-2xl bg-surface border border-border-subtle hover:border-primary/30 hover:shadow-md transition-all duration-300">
+                                        <div className="min-w-[120px] pt-1">
+                                            <div className="inline-flex items-center gap-2 font-mono font-bold text-primary bg-primary-soft px-3 py-1 rounded-lg text-sm">
+                                                <Clock size={14} />
                                                 {event.time}
                                             </div>
-                                            <div className="flex-1">
-                                                <h3 className="text-lg font-bold mb-1">{event.title}</h3>
-                                                <p className="text-muted-foreground text-sm">{event.desc}</p>
-                                            </div>
-                                        </CardContent>
-                                    </Card>
+                                        </div>
+                                        <div className="flex-1 space-y-1">
+                                            <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">{event.title}</h3>
+                                            <p className="text-secondary text-base leading-relaxed">{event.desc}</p>
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
                         </div>

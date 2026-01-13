@@ -7,12 +7,11 @@ import { ArrowRight, Calendar } from "lucide-react";
 
 export function Hero() {
     return (
-        <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-background">
-            {/* Abstract Background Effects */}
+        <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-white/50">
+            {/* Abstract Background Effects - Light & Energetic */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/20 rounded-full blur-[120px] opacity-50 animate-pulse" />
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/10 rounded-full blur-[100px]" />
-                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-purple-900/20 rounded-full blur-[100px]" />
+                <div className="absolute -top-32 -right-32 w-[600px] h-[600px] bg-accent/20 blur-[100px] rounded-full mix-blend-multiply opacity-70" />
+                <div className="absolute top-40 -left-32 w-[500px] h-[500px] bg-primary/20 blur-[100px] rounded-full mix-blend-multiply opacity-70" />
             </div>
 
             <div className="container px-4 md:px-6 relative z-10 flex flex-col items-center text-center">
@@ -20,34 +19,40 @@ export function Hero() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="space-y-6 max-w-4xl"
+                    className="space-y-8 max-w-4xl"
                 >
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/50 border border-white/5 backdrop-blur-md text-sm text-secondary-foreground mb-4">
-                        <span className="flex h-2 w-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface border border-border-subtle shadow-sm text-sm text-secondary font-medium hover:shadow-md transition-shadow cursor-default">
+                        <span className="flex h-2.5 w-2.5 rounded-full bg-accent animate-pulse"></span>
                         Jan 3-5, 2024 • IEDC CETkr
                     </div>
 
-                    <h1 className="text-6xl md:text-8xl font-bold font-heading tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70">
-                        IDEON <span className="text-primary">1.0</span>
+                    <h1 className="text-6xl md:text-8xl font-bold font-heading tracking-tight text-foreground leading-[1.1]">
+                        IDEON <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent relative inline-block">
+                            1.0
+                            {/* Sparkle decoration */}
+                            <svg className="absolute -top-6 -right-8 w-10 h-10 text-accent opacity-80" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" />
+                            </svg>
+                        </span>
                     </h1>
 
-                    <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                        Where <span className="text-accent font-medium">Ideas</span> Turn Into{" "}
-                        <span className="text-primary font-medium">Impact</span>.
+                    <p className="text-xl md:text-2xl text-secondary max-w-2xl mx-auto leading-relaxed font-medium">
+                        Where <span className="text-primary font-bold">Ideas</span> Turn Into{" "}
+                        <span className="text-accent font-bold">Impact</span>.
                         <br className="hidden md:block" />
-                        The flagship innovation event.
+                        Join the flagship innovation summit.
                     </p>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-                        <Button size="lg" variant="premium" className="group text-lg px-8 h-14" asChild>
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
+                        <Button size="lg" variant="default" className="text-lg px-8 h-14 rounded-full shadow-lg hover:shadow-primary/30" asChild>
                             <Link href="/register">
                                 Register Now
                                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </Button>
-                        <Button size="lg" variant="outline" className="text-lg px-8 h-14 border-white/10 hover:bg-white/5" asChild>
+                        <Button size="lg" variant="outline" className="text-lg px-8 h-14 rounded-full border-border-subtle hover:bg-surface-alt bg-surface" asChild>
                             <Link href="/schedule">
-                                <Calendar className="mr-2 h-5 w-5" />
+                                <Calendar className="mr-2 h-5 w-5 text-primary" />
                                 View Schedule
                             </Link>
                         </Button>
@@ -60,13 +65,13 @@ export function Hero() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1, duration: 1 }}
-                className="absolute bottom-10 left-1/2 -translate-x-1/2"
+                className="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-50"
             >
-                <div className="w-6 h-10 border-2 border-muted rounded-full flex justify-center p-1">
+                <div className="w-6 h-10 border-2 border-primary/20 rounded-full flex justify-center p-1">
                     <motion.div
                         animate={{ y: [0, 12, 0] }}
                         transition={{ repeat: Infinity, duration: 1.5 }}
-                        className="w-1.5 h-1.5 bg-muted-foreground rounded-full"
+                        className="w-1.5 h-1.5 bg-primary rounded-full"
                     />
                 </div>
             </motion.div>

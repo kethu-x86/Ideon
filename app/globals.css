@@ -4,8 +4,14 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-primary: var(--primary);
-  --color-secondary: var(--secondary);
+  --color-primary-soft: var(--primary-soft);
   --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-secondary: var(--secondary);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-border-subtle: var(--border-subtle);
+
   --font-sans: var(--font-inter);
   --font-heading: var(--font-space-grotesk);
 
@@ -15,24 +21,35 @@
 }
 
 :root {
-  /* Dark Theme by Default (Slate 950 base) */
-  --background: #020617; 
-  --foreground: #f8fafc;
-  
-  /* Electric Violet / Indigo */
-  --primary: #7c3aed; 
-  --primary-foreground: #ffffff;
+  /* Light Theme Base */
+  --background: #FFFFFF;
+  --foreground: #1F2937;
+  /* slate-800 */
 
-  /* Cyan / Teal */
-  --accent: #06b6d4;
-  --accent-foreground: #020617;
+  /* Electric Blue */
+  --primary: #0055FF;
+  --primary-foreground: #FFFFFF;
+  --primary-soft: #EAF1FF;
 
-  /* Muted */
-  --secondary: #1e293b;
-  --secondary-foreground: #94a3b8;
-  
+  /* Vibrant Cyan */
+  --accent: #00D8FF;
+  --accent-foreground: #FFFFFF;
+  --accent-soft: #E6FBFF;
+
+  /* Surface Colors */
+  --surface: #FFFFFF;
+  --surface-alt: #F9FAFB;
+  /* slate-50 */
+
+  /* Text */
+  --secondary: #4B5563;
+  /* slate-600 */
+  --secondary-foreground: #FFFFFF;
+
   /* Border */
-  --border: #1e293b;
+  --border: #E5E7EB;
+  /* slate-200 */
+  --border-subtle: #E5E7EB;
 }
 
 body {
@@ -43,18 +60,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Glassmorphism Utilities */
+/* Glassmorphism Utilities - REMOVED/UPDATED for clean look */
 @utility glass {
-  background-color: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 @utility glass-hover {
   @apply transition-all duration-300;
+
   &:hover {
     background-color: rgba(255, 255, 255, 0.05);
     border-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 20px rgba(124, 58, 237, 0.1); 
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.1);
   }
 }

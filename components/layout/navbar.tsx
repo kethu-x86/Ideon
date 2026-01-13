@@ -12,7 +12,6 @@ const navLinks = [
     { name: "About", href: "/about" },
     { name: "Schedule", href: "/schedule" },
     { name: "Speakers", href: "/speakers" },
-    { name: "Contact", href: "/contact" },
 ];
 
 export function Navbar() {
@@ -33,16 +32,16 @@ export function Navbar() {
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b",
                 scrolled
-                    ? "bg-background/80 backdrop-blur-md border-border/40 py-3"
+                    ? "bg-white/80 backdrop-blur-md border-border-subtle py-3 shadow-sm"
                     : "bg-transparent border-transparent py-5"
             )}
         >
             <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-2 group">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center text-white font-bold text-lg group-hover:scale-105 transition-transform">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-xl group-hover:scale-105 transition-transform shadow-lg shadow-primary/20">
                         I
                     </div>
-                    <span className="text-xl font-bold font-heading tracking-tight">IDEON</span>
+                    <span className="text-2xl font-bold font-heading tracking-tight text-foreground">IDEON</span>
                 </Link>
 
                 {/* Desktop Nav */}
@@ -52,14 +51,18 @@ export function Navbar() {
                             key={link.href}
                             href={link.href}
                             className={cn(
-                                "text-sm font-medium transition-colors hover:text-primary",
-                                pathname === link.href ? "text-primary" : "text-muted-foreground"
+                                "text-sm font-medium transition-colors hover:text-primary relative group/link",
+                                pathname === link.href ? "text-primary" : "text-secondary"
                             )}
                         >
                             {link.name}
+                            <span className={cn(
+                                "absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover/link:w-full",
+                                pathname === link.href && "w-full"
+                            )} />
                         </Link>
                     ))}
-                    <Button variant="premium" size="sm" asChild>
+                    <Button variant="default" size="sm" asChild className="rounded-full px-6">
                         <Link href="/register">Register Now</Link>
                     </Button>
                 </nav>

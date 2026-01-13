@@ -7,6 +7,4 @@ assets = { directory = ".open-next/assets", binding = "ASSETS" }
 [observability]
 enabled = true
 
-[[kv_namespaces]]
-binding = "NEXT_CACHE_WORKERS_KV"
-id = "NEXT_CACHE_WORKERS_KV"
+

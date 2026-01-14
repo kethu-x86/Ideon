@@ -1,9 +1,15 @@
 "use client";
 
 import { m, LazyMotion, domAnimation, useScroll, useTransform, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, memo } from "react";
 import { Clock, Sun, Moon, Trophy, Sparkles } from "lucide-react";
 import { SectionWrapper } from "@/components/layout/section-wrapper";
+
+// -----------------------------------------------------------------------------
+// Static Data & Constants (Moved outside component to prevent recreation)
+// -----------------------------------------------------------------------------
+
+const TIMELINE_PATH = "M100 50 C 30 150, 170 250, 100 350 C 30 450, 170 550, 100 650 C 30 750, 100 850, 100 850";
 
 const fullSchedule = [
     {
@@ -45,7 +51,7 @@ const fullSchedule = [
             { time: "5:00 PM", title: "Closing" },
         ]
     },
-];
+] as const;
 
 const colorMap = {
     primary: {
@@ -72,7 +78,104 @@ const colorMap = {
         iconColor: "text-tertiary",
         dot: "bg-tertiary",
     },
-};
+} as const;
+
+// -----------------------------------------------------------------------------
+// Sub-Components
+// -----------------------------------------------------------------------------
+
+// Memoized to prevent unnecessary re-renders when parent scroll changes
+const TimelineItem = memo(({ day, index }: { day: typeof fullSchedule[number]; index: number }) => {
+    const colors = colorMap[day.color as keyof typeof colorMap];
+    const Icon = day.icon;
+    const isEven = index % 2 === 0;
+
+    return (
+        <m.div
+            initial={{ opacity: 0, x: isEven ? -50 : 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className={`flex items-center gap-8 md:gap-16 ${isEven ? 'flex-row' : 'flex-row-reverse'}`}
+        >
+            {/* Day Card */}
+            <div className={`flex-1 ${isEven ? 'text-right' : 'text-left'}`}>
+                <m.div
+                    className={`
+                        inline-block p-6 md:p-8 rounded-2xl
+                        bg-surface border ${colors.border}
+                        shadow-xl ${colors.glow}
+                        hover:scale-[1.02] transition-transform duration-300
+                    `}
+                    whileHover={{ y: -5 }}
+                >
+                    {/* Day Header */}
+                    <div className={`flex items-center gap-3 mb-4 ${isEven ? 'justify-end' : 'justify-start'}`}>
+                        <div className={`w-12 h-12 rounded-xl ${colors.iconBg} flex items-center justify-center ${colors.iconColor} ${isEven ? 'order-2' : ''}`}>
+                            <Icon size={24} />
+                        </div>
+                        <div className={isEven ? 'text-right' : 'text-left'}>
+                            <span className={`inline-block px-2 py-0.5 rounded text-xs font-bold ${colors.badge} mb-1`}>
+                                {day.day}
+                            </span>
+                            <h3 className="text-xl md:text-2xl font-bold font-heading text-foreground">
+                                {day.date}
+                            </h3>
+                        </div>
+                    </div>
+
+                    {/* Subtitle */}
+                    <p className="text-sm text-secondary mb-4 flex items-center gap-2 justify-end">
+                        {isEven && <Sparkles size={14} className={colors.iconColor} />}
+                        <span>{day.subtitle}</span>
+                        {!isEven && <Sparkles size={14} className={colors.iconColor} />}
+                    </p>
+
+                    {/* Events */}
+                    <div className="space-y-2">
+                        {day.events.map((event, eventIndex) => (
+                            <div // Changed from m.div to div for lighter DOM if animation is not critical, or keep m.div if stagger is needed. Keeping simple fade-in.
+                                key={eventIndex}
+                                className={`flex items-center gap-3 text-sm ${isEven ? 'justify-end' : 'justify-start'}`}
+                            >
+                                {isEven && <span className="text-foreground font-medium">{event.title}</span>}
+                                <span className={`font-mono text-xs ${colors.iconColor} ${colors.iconBg} px-2 py-0.5 rounded flex items-center gap-1`}>
+                                    <Clock size={10} />
+                                    {event.time}
+                                </span>
+                                {!isEven && <span className="text-foreground font-medium">{event.title}</span>}
+                            </div>
+                        ))}
+                    </div>
+                </m.div>
+            </div>
+
+            {/* Center Dot on the Path */}
+            <div className="flex-shrink-0 relative">
+                <m.div
+                    className={`w-6 h-6 rounded-full ${colors.dot} shadow-lg ring-4 ring-surface`}
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ type: "spring", stiffness: 300, delay: 0.2 }}
+                />
+                {/* Pulse effect */}
+                <div
+                    className={`absolute inset-0 rounded-full ${colors.dot} animate-pulse-slow`}
+                    style={{ opacity: 0.4 }}
+                />
+            </div>
+
+            {/* Empty space on the other side */}
+            <div className="flex-1" />
+        </m.div>
+    );
+});
+TimelineItem.displayName = "TimelineItem";
+
+// -----------------------------------------------------------------------------
+// Main Component
+// -----------------------------------------------------------------------------
 
 export function TimelinePreview() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -89,8 +192,8 @@ export function TimelinePreview() {
     return (
         <LazyMotion features={domAnimation}>
             <SectionWrapper id="schedule" className="relative overflow-hidden py-20">
-                {/* Background */}
-                <div className="absolute inset-0 pointer-events-none">
+                {/* Background - Using will-change to hint browser for optimization */}
+                <div className="absolute inset-0 pointer-events-none" style={{ willChange: "transform" }}>
                     <div className="absolute top-20 left-[10%] w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px]" />
                     <div className="absolute top-[40%] right-[10%] w-[300px] h-[300px] bg-accent/5 rounded-full blur-[80px]" />
                     <div className="absolute bottom-20 left-[20%] w-[350px] h-[350px] bg-tertiary/5 rounded-full blur-[100px]" />
@@ -122,13 +225,11 @@ export function TimelinePreview() {
                         viewBox="0 0 200 900"
                         fill="none"
                         preserveAspectRatio="none"
+                        aria-hidden="true"
                     >
                         {/* Background path (faded) */}
                         <path
-                            d="M100 50 
-                           C 30 150, 170 250, 100 350
-                           C 30 450, 170 550, 100 650
-                           C 30 750, 100 850, 100 850"
+                            d={TIMELINE_PATH}
                             stroke="rgba(0,85,255,0.08)"
                             strokeWidth="3"
                             strokeLinecap="round"
@@ -136,10 +237,7 @@ export function TimelinePreview() {
                         />
                         {/* Animated path */}
                         <m.path
-                            d="M100 50 
-                           C 30 150, 170 250, 100 350
-                           C 30 450, 170 550, 100 650
-                           C 30 750, 100 850, 100 850"
+                            d={TIMELINE_PATH}
                             stroke="url(#gradient)"
                             strokeWidth="3"
                             strokeLinecap="round"
@@ -157,96 +255,9 @@ export function TimelinePreview() {
 
                     {/* Timeline Content */}
                     <div className="relative z-10 space-y-24 md:space-y-32">
-                        {fullSchedule.map((day, index) => {
-                            const colors = colorMap[day.color as keyof typeof colorMap];
-                            const Icon = day.icon;
-                            const isEven = index % 2 === 0;
-
-                            return (
-                                <m.div
-                                    key={index}
-                                    initial={{ opacity: 0, x: isEven ? -50 : 50 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true, margin: "-100px" }}
-                                    transition={{ duration: 0.6 }}
-                                    className={`flex items-center gap-8 md:gap-16 ${isEven ? 'flex-row' : 'flex-row-reverse'}`}
-                                >
-                                    {/* Day Card */}
-                                    <div className={`flex-1 ${isEven ? 'text-right' : 'text-left'}`}>
-                                        <m.div
-                                            className={`
-                                            inline-block p-6 md:p-8 rounded-2xl
-                                            bg-surface border ${colors.border}
-                                            shadow-xl ${colors.glow}
-                                            hover:scale-[1.02] transition-transform duration-300
-                                        `}
-                                            whileHover={{ y: -5 }}
-                                        >
-                                            {/* Day Header */}
-                                            <div className={`flex items-center gap-3 mb-4 ${isEven ? 'justify-end' : 'justify-start'}`}>
-                                                <div className={`w-12 h-12 rounded-xl ${colors.iconBg} flex items-center justify-center ${colors.iconColor} ${isEven ? 'order-2' : ''}`}>
-                                                    <Icon size={24} />
-                                                </div>
-                                                <div className={isEven ? 'text-right' : 'text-left'}>
-                                                    <span className={`inline-block px-2 py-0.5 rounded text-xs font-bold ${colors.badge} mb-1`}>
-                                                        {day.day}
-                                                    </span>
-                                                    <h3 className="text-xl md:text-2xl font-bold font-heading text-foreground">
-                                                        {day.date}
-                                                    </h3>
-                                                </div>
-                                            </div>
-
-                                            {/* Subtitle */}
-                                            <p className="text-sm text-secondary mb-4 flex items-center gap-2 justify-end">
-                                                {isEven && <Sparkles size={14} className={colors.iconColor} />}
-                                                <span>{day.subtitle}</span>
-                                                {!isEven && <Sparkles size={14} className={colors.iconColor} />}
-                                            </p>
-
-                                            {/* Events */}
-                                            <div className="space-y-2">
-                                                {day.events.map((event, eventIndex) => (
-                                                    <m.div
-                                                        key={eventIndex}
-                                                        initial={{ opacity: 0 }}
-                                                        whileInView={{ opacity: 1 }}
-                                                        transition={{ delay: eventIndex * 0.1 }}
-                                                        className={`flex items-center gap-3 text-sm ${isEven ? 'justify-end' : 'justify-start'}`}
-                                                    >
-                                                        {isEven && <span className="text-foreground font-medium">{event.title}</span>}
-                                                        <span className={`font-mono text-xs ${colors.iconColor} ${colors.iconBg} px-2 py-0.5 rounded flex items-center gap-1`}>
-                                                            <Clock size={10} />
-                                                            {event.time}
-                                                        </span>
-                                                        {!isEven && <span className="text-foreground font-medium">{event.title}</span>}
-                                                    </m.div>
-                                                ))}
-                                            </div>
-                                        </m.div>
-                                    </div>
-
-                                    {/* Center Dot on the Path */}
-                                    <div className="flex-shrink-0 relative">
-                                        <m.div
-                                            className={`w-6 h-6 rounded-full ${colors.dot} shadow-lg ring-4 ring-surface`}
-                                            initial={{ scale: 0 }}
-                                            whileInView={{ scale: 1 }}
-                                            viewport={{ once: true }}
-                                            transition={{ type: "spring", stiffness: 300, delay: 0.2 }}
-                                        />
-                                        {/* Pulse effect - CSS ANIMATION NOW */}
-                                        <div
-                                            className={`absolute inset-0 rounded-full ${colors.dot} animate-pulse-slow`}
-                                            style={{ opacity: 0.4 }}
-                                        />
-                                    </div>
-
-                                    {/* Empty space on the other side */}
-                                    <div className="flex-1" />
-                                </m.div>
-                            );
-                        })}
+                        {fullSchedule.map((day, index) => (
+                            <TimelineItem key={index} day={day} index={index} />
+                        ))}
                     </div>
                 </div>
             </SectionWrapper>

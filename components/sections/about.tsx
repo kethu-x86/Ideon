@@ -2,32 +2,28 @@
 
 import { m, LazyMotion, domAnimation, useInView } from "framer-motion";
 import { SectionWrapper } from "@/components/layout/section-wrapper";
-import { Lightbulb, Rocket, Target, Users, Zap, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useRef } from "react";
 
 const pillars = [
     {
-        icon: Target,
         title: "Design Thinking",
         description: "Empathy-driven solutions that address real user needs.",
         color: "primary",
     },
     {
-        icon: Users,
         title: "Collaboration",
         description: "Cross-disciplinary teams working together intensively.",
         color: "accent",
     },
     {
-        icon: Zap,
         title: "Rapid Execution",
         description: "From idea to prototype in just 72 hours.",
         color: "tertiary",
     },
     {
-        icon: Rocket,
         title: "Real Impact",
         description: "Solutions that can make a real difference.",
         color: "primary",
@@ -35,9 +31,9 @@ const pillars = [
 ];
 
 const colorMap = {
-    primary: "bg-primary-soft text-primary border-primary/20",
-    accent: "bg-accent-soft text-accent border-accent/20",
-    tertiary: "bg-tertiary-soft text-tertiary border-tertiary/20",
+    primary: "bg-primary",
+    accent: "bg-accent",
+    tertiary: "bg-tertiary",
 };
 
 export function About() {
@@ -98,9 +94,6 @@ export function About() {
                             {/* Visual element */}
                             <div className="relative p-8 rounded-2xl bg-gradient-to-br from-primary-soft via-white to-accent-soft border border-border-subtle shadow-lg">
                                 <div className="flex items-center gap-6">
-                                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
-                                        <Lightbulb className="w-10 h-10 text-white" />
-                                    </div>
                                     <div>
                                         <div className="text-4xl font-bold font-heading text-foreground">72</div>
                                         <div className="text-secondary">Hours of Innovation</div>
@@ -114,10 +107,9 @@ export function About() {
                             initial={{ opacity: 0, x: 20 }}
                             animate={isInView ? { opacity: 1, x: 0 } : {}}
                             transition={{ duration: 0.5, delay: 0.4 }}
-                            className="grid grid-cols-2 gap-4"
+                            className="grid grid-cols-1 sm:grid-cols-2 gap-4"
                         >
                             {pillars.map((pillar, index) => {
-                                const Icon = pillar.icon;
                                 return (
                                     <m.div
                                         key={index}
@@ -126,22 +118,20 @@ export function About() {
                                         transition={{ delay: 0.5 + (index * 0.1) }}
                                         className="group"
                                     >
-                                        <div className={`
-                                        p-6 rounded-2xl bg-surface border border-border-subtle
-                                        hover:shadow-lg hover:-translate-y-1
-                                        transition-all duration-300
-                                    `}>
+                                        <div className="
+                                            h-full p-8 rounded-2xl bg-surface border border-border-subtle
+                                            hover:shadow-xl hover:-translate-y-1
+                                            transition-all duration-300 relative overflow-hidden
+                                        ">
                                             <div className={`
-                                            w-12 h-12 rounded-xl ${colorMap[pillar.color as keyof typeof colorMap]}
-                                            flex items-center justify-center mb-4
-                                            group-hover:scale-110 transition-transform duration-300
-                                        `}>
-                                                <Icon size={24} />
-                                            </div>
-                                            <h4 className="text-lg font-bold font-heading text-foreground mb-2">
+                                                absolute top-0 left-0 w-1.5 h-full 
+                                                ${colorMap[pillar.color as keyof typeof colorMap]}
+                                                opacity-60 group-hover:opacity-100 transition-opacity duration-300
+                                            `} />
+                                            <h4 className="text-xl font-bold font-heading text-foreground mb-3 relative z-10">
                                                 {pillar.title}
                                             </h4>
-                                            <p className="text-sm text-secondary leading-relaxed">
+                                            <p className="text-secondary leading-relaxed relative z-10">
                                                 {pillar.description}
                                             </p>
                                         </div>

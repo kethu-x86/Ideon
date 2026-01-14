@@ -62,11 +62,6 @@ export function About() {
                             <h2 className="text-4xl md:text-6xl font-bold font-heading text-foreground max-w-2xl">
                                 WHY <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">IDEON</span>?
                             </h2>
-                            <Button variant="outline" size="lg" className="rounded-xl w-fit" asChild>
-                                <Link href="/about">
-                                    Learn More <ArrowRight className="ml-2 h-4 w-4" />
-                                </Link>
-                            </Button>
                         </div>
                     </m.div>
 
